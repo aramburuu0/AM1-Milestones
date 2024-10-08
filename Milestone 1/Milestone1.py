@@ -27,7 +27,7 @@ def Euler_method():
     plot.show()
 
 
-def Kepler(U,  t,):
+def Kepler(U, t,):
         
     x = U[0]; y = U[1]; xd = U[2]; yd = U[3]
     modulo = (x**2+y**2)**(1/2)
