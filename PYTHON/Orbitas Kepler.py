@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from numpy import zeros
+from numpy.linalg import norm
 
 # Definición de la función F
 def F(x, y, xd, yd):
