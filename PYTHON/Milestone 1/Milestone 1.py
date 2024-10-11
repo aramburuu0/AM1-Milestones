@@ -1,5 +1,4 @@
 from numpy import zeros, array, linspace
-from numpy.linalg import norm
 import matplotlib.pyplot as plt
 
 ######### CONDICIONES INICIALES ÓRBITA DE KEPLER #########
