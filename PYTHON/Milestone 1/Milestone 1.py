@@ -18,7 +18,7 @@ U0_kepler = array([ x_kepler, y_kepler, xd_kepler, yd_kepler ])
 
 ######### CODIGO PARA LOS DIFERENTES ESQUEMAS TEMPORALES #########
 
-######### EULER EXPLICITO #########
+######### EULER EXPLICITO (EE) #########
 
 F_euler = zeros([N+1,len(U0_kepler)])
 U_euler = zeros([N+1,len(U0_kepler)])
@@ -37,7 +37,7 @@ for n in range(0, N):
 
     U_euler[n+1, :] = U_euler[n, :] + (t[n+1] - t[n]) * F_euler[n, :]
 
-######### RUNGE-KUTTA 2 ETAPAS RK2 #########
+######### RUNGE-KUTTA 2 ETAPAS (RK2) #########
 
 U_rk2 = zeros([N+1,len(U0_kepler)])
 F_rk2 = zeros([N+1,len(U0_kepler)])
@@ -62,7 +62,7 @@ for n in range(0, N):
 
     U_rk2[n+1, :] = U_rk2[n, :] + deltat/2 * (k1_rk2[n, :] +  k2_rk2[n, :])
 
-######### RUNGE-KUTTA 4 ETAPAS RK4 #########
+######### RUNGE-KUTTA 4 ETAPAS (RK4) #########
 
 U_rk4 = zeros([N+1,len(U0_kepler)])
 F_rk4 = zeros([N+1,len(U0_kepler)])
@@ -111,6 +111,6 @@ plt.plot( U_rk4[:, 0], U_rk4[:,1], ':g', lw = 2, label ="Runge-Kutta 4" )
 plt.legend()
 plt.xlabel( 'Coordenada x' )
 plt.ylabel( 'Coordenada y' )
-plt.title( r'Órbita con distintos esquemas ($\Delta$t={})'.format(round(deltat,2)) )
+plt.title( r'Órbita de Kepler ($\Delta$t={})'.format(round(deltat,2)) )
 plt.grid()
 plt.show()
