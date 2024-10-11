@@ -105,9 +105,9 @@ for n in range (0, N):
 plt.figure(figsize=(8, 5))
 plt.axis("equal")
 
-plt.plot( U_euler[:, 0], U_euler[:,1], '-b' , lw = 1, label ="Euler explícito" )
-plt.plot( U_rk2[:, 0], U_rk2[:,1], '-r' , lw = 1, label ="Runge-Kutta 2" )
-plt.plot( U_rk4[:, 0], U_rk4[:,1], ':g' , lw = 2, label ="Runge-Kutta 4" )
+plt.plot( U_euler[:, 0], U_euler[:,1], '-b', lw = 1, label ="Euler explícito" )
+plt.plot( U_rk2[:, 0], U_rk2[:,1], '-r', lw = 1, label ="Runge-Kutta 2" )
+plt.plot( U_rk4[:, 0], U_rk4[:,1], ':g', lw = 2, label ="Runge-Kutta 4" )
 
 plt.legend()
 plt.xlabel( 'Coordenada x' )
