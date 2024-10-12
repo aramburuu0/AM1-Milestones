@@ -11,8 +11,8 @@ def F(x, y, xd, yd):
     return F1, F2, F3, F4
 
 # Parámetros del sistema
-T = 1      # Tiempo total
-N = 10   # Número de pasos (más grande para mayor precisión)
+T = 20      # Tiempo total
+N = 200   # Número de pasos (más grande para mayor precisión)
 deltat = T / N
 
 # Listas para almacenar los valores de x e y
@@ -36,18 +36,11 @@ for i in range(N):
     
 
 # Representación gráfica
-plt.plot(x, y)
+plt.plot(x, y, label = 'Euler Explicito')
+plt.legend()
 plt.xlabel('x')
 plt.ylabel('y')
-plt.title('Trayectoria en 2D')
+plt.title(r'Trayectoria en 2D ($\Delta$t={})'.format(round(deltat,2)))
 plt.grid(True)
 plt.axis('equal')  # Escala igual en ambos ejes
-plt.show()
-
-plt.plot(xd,yd)
-plt.xlabel('Velocidad en x')
-plt.ylabel('Velocidad en y')
-plt.title('Componentes velocidad')
-plt.grid(True)
-plt.axis('equal')
 plt.show()

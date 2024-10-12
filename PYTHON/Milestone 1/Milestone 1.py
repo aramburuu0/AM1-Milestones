@@ -1,4 +1,4 @@
-from numpy import zeros, array, linspace
+from numpy import zeros, array
 import matplotlib.pyplot as plt
 
 ######### CONDICIONES INICIALES ÓRBITA DE KEPLER #########
@@ -61,6 +61,37 @@ for n in range(0, N):
     k2_rk2[n, 3] = -(U_rk2[n, 1] + k1_rk2[n, 1] * (t[n+1] - t[n])) / ((U_rk2[n, 0] + k1_rk2[n, 0] * (t[n+1] - t[n]))**2 + (U_rk2[n, 1] + k1_rk2[n, 1] * (t[n+1] - t[n]))**2)**(3/2)
 
     U_rk2[n+1, :] = U_rk2[n, :] + deltat/2 * (k1_rk2[n, :] +  k2_rk2[n, :])
+    
+######### RUNGE-KUTTA 3 ETAPAS (RK3) #########
+
+U_rk3 = zeros([N+1, len(U0_kepler)])
+F_rk3 = zeros([N+1, len(U0_kepler)])
+k1_rk3 = zeros([N+1, len(U0_kepler)])
+k2_rk3 = zeros([N+1, len(U0_kepler)])
+k3_rk3 = zeros([N+1, len(U0_kepler)])
+
+U_rk3[0, :] = U0_kepler
+
+for n in range(0, N):
+
+    F_rk3[n, 0] = U_rk3[n, 2]
+    F_rk3[n, 1] = U_rk3[n, 3]
+    F_rk3[n, 2] = -U_rk3[n, 0]/(U_rk3[n, 0]**2 + U_rk3[n, 1]**2)**(3/2)
+    F_rk3[n, 3] = -U_rk3[n, 1]/(U_rk3[n, 0]**2 + U_rk3[n, 1]**2)**(3/2)
+
+    k1_rk3[n, :] = F_rk3[n, :]
+
+    k2_rk3[n, 0] = (U_rk3[n, 2] + k1_rk3[n, 2] * (t[n+1] - t[n])/3)
+    k2_rk3[n, 1] = (U_rk3[n, 3] + k1_rk3[n, 3] * (t[n+1] - t[n])/3)
+    k2_rk3[n, 2] = -(U_rk3[n, 0] + k1_rk3[n, 0] * (t[n+1] - t[n])/3) / ((U_rk3[n, 0] + k1_rk3[n, 0] * (t[n+1] - t[n])/3)**2 + (U_rk3[n, 1] + k1_rk3[n, 1] * (t[n+1] - t[n])/3)**2)**(3/2)
+    k2_rk3[n, 3] = -(U_rk3[n, 1] + k1_rk3[n, 1] * (t[n+1] - t[n])/3) / ((U_rk3[n, 0] + k1_rk3[n, 0] * (t[n+1] - t[n])/3)**2 + (U_rk3[n, 1] + k1_rk3[n, 1] * (t[n+1] - t[n])/3)**2)**(3/2)
+
+    k3_rk3[n, 0] = (U_rk3[n, 2] + k2_rk3[n, 2] * (t[n+1] - t[n])*(2/3))
+    k3_rk3[n, 1] = (U_rk3[n, 3] + k2_rk3[n, 3] * (t[n+1] - t[n])*(2/3))
+    k3_rk3[n, 2] = -(U_rk3[n, 0] + k2_rk3[n, 0] * (t[n+1] - t[n])*(2/3)) / ((U_rk3[n, 0] + k2_rk3[n, 0] * (t[n+1] - t[n])*(2/3))**2 + (U_rk3[n, 1] + k2_rk3[n, 1] * (t[n+1] - t[n])*(2/3))**2)**(3/2)
+    k3_rk3[n, 3] = -(U_rk3[n, 1] + k2_rk3[n, 1] * (t[n+1] - t[n])*(2/3)) / ((U_rk3[n, 0] + k2_rk3[n, 0] * (t[n+1] - t[n])*(2/3))**2 + (U_rk3[n, 1] + k2_rk3[n, 1] * (t[n+1] - t[n])*(2/3))**2)**(3/2)
+
+    U_rk3[n+1, :] = U_rk3[n, :] + deltat/4 * (k1_rk3[n, :] + 3* k3_rk3[n, :])
 
 ######### RUNGE-KUTTA 4 ETAPAS (RK4) #########
 
@@ -106,7 +137,8 @@ plt.axis("equal")
 
 plt.plot( U_euler[:, 0], U_euler[:,1], '-b', lw = 1, label ="Euler explícito" )
 plt.plot( U_rk2[:, 0], U_rk2[:,1], '-r', lw = 1, label ="Runge-Kutta 2" )
-plt.plot( U_rk4[:, 0], U_rk4[:,1], ':g', lw = 2, label ="Runge-Kutta 4" )
+plt.plot( U_rk3[:, 0], U_rk3[:,1], '--g', lw = 1, label ="Runge-Kutta 3" )
+plt.plot( U_rk4[:, 0], U_rk4[:,1], ':y', lw = 1, label ="Runge-Kutta 4" )
 
 plt.legend()
 plt.xlabel( 'Coordenada x' )
