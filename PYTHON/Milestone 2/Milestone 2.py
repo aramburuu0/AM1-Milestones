@@ -147,6 +147,6 @@ else:
     plt.ylabel( 'Posición' )
 
 plt.title( r'{} con ($\Delta$t={})'.format(Problema.__name__,round(dt,2)) )
-plt.legend()
+plt.legend(loc='upper right', fontsize='small')
 plt.grid()
 plt.show()
