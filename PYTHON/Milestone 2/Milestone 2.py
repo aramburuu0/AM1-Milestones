@@ -81,27 +81,38 @@ def Cauchy(Esquema, U0, F, t):
 
 ######### CONDICIONES INICIALES #########
 
-t0 = 0
-tf = 20
-N = 200
-
-# dt = (tf-t0)/N
+# t0 = 0
+# tf = 20
+# N = 200
 
 while True:
 
     try:
 
-        dt = float(input("Introduce el valor de dt: "))
+        t0 = float(input("Introduce el valor del instante inicial t0: "))
+        tf = float(input("Introduce el valor del instante final tf: "))
+        N = int(input("Introduce el número de pasos N: "))
         
-        if dt <= 0:
+        if t0 >= tf:
 
-            raise ValueError
+            raise ValueError("El valor de t0 debe ser menor que el valor de tf.")
+
+        if tf <= 0:
+
+            raise ValueError("El valor de tf debe ser mayor que 0.")
+
+        if N <= 0:
+
+            raise ValueError("El número de pasos N debe ser mayor que 0.")
 
         break
 
-    except ValueError:
+    except ValueError as e:
 
-        print("Por favor, introduce un valor positivo para dt.")
+        print(f"Error: {e}.")
+
+dt = (tf-t0)/N
+print(f"El valor de dt es: {dt}")
 
 t = linspace(t0, tf, N+1)
 
@@ -120,7 +131,7 @@ xd_osc = 0
 ######### RESOLUCIÓN #########
 
 # Problema = Oscilador
-problema = input("¿Qué problema deseas resolver?")
+problema = input("¿Qué problema deseas resolver? ")
 
 if problema == "Kepler":
 
