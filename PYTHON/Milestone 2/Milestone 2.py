@@ -85,7 +85,24 @@ t0 = 0
 tf = 20
 N = 200
 
-dt = (tf-t0)/N
+# dt = (tf-t0)/N
+
+while True:
+
+    try:
+
+        dt = float(input("Introduce el valor de dt: "))
+        
+        if dt <= 0:
+
+            raise ValueError
+
+        break
+
+    except ValueError:
+
+        print("Por favor, introduce un valor positivo para dt.")
+
 t = linspace(t0, tf, N+1)
 
 ######### KEPLER #########
