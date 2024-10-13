@@ -81,10 +81,6 @@ def Cauchy(Esquema, U0, F, t):
 
 ######### CONDICIONES INICIALES #########
 
-# t0 = 0
-# tf = 20
-# N = 200
-
 while True:
 
     try:
