@@ -154,23 +154,51 @@ plt.axis('equal')
 
 if Problema == Kepler:
 
+    plt.title( r'{} con ($\Delta$t={})'.format(Problema.__name__,round(dt,2)) )
     plt.plot(U_euler[:,0], U_euler[:, 1], '-b', lw = 1, label ="Euler explícito")
     plt.plot(U_rk2[:,0], U_rk2[:, 1], '-r', lw = 1, label ="Runge-Kutta 2")
     plt.plot(U_rk3[:,0], U_rk3[:, 1], '--g', lw = 1, label ="Runge-Kutta 3")
     plt.plot(U_rk4[:,0], U_rk4[:, 1], ':y', lw = 1, label ="Runge-Kutta 4")
     plt.xlabel( 'Coordenada x' )
     plt.ylabel( 'Coordenada y' )
+    plt.legend(loc='upper right', fontsize='small')
+    plt.grid()
+    plt.show()
+
+    plt.title(r'Evolución de Vx con $\Delta$t={}'.format(round(dt,2)))
+    plt.plot(t, U_euler[:,0], '-b', lw = 1, label ="Euler explícito")
+    plt.plot(t, U_rk2[:,0], '-r', lw = 1, label ="Runge-Kutta 2")
+    plt.plot(t, U_rk3[:,0], '--g', lw = 1, label ="Runge-Kutta 3")
+    plt.plot(t, U_rk4[:,0], ':y', lw = 1, label ="Runge-Kutta 4")
+    plt.xlabel( 'Tiempo' )
+    plt.ylabel( 'Velocidad horizontal Vx' )
+    plt.grid()
+    plt.legend(loc='upper right', fontsize='small')
+    plt.show()
+    
+    
+    plt.title(r'Evolución de Vy con $\Delta$t={}'.format(round(dt,2)))
+    plt.plot(t, U_euler[:,1], '-b', lw = 1, label ="Euler explícito")
+    plt.plot(t, U_rk2[:,1], '-r', lw = 1, label ="Runge-Kutta 2")
+    plt.plot(t, U_rk3[:,1], '--g', lw = 1, label ="Runge-Kutta 3")
+    plt.plot(t, U_rk4[:,1], ':y', lw = 1, label ="Runge-Kutta 4")
+    plt.xlabel( 'Tiempo' )
+    plt.ylabel( 'Velocidad horizontal Vy' )
+    plt.grid()
+    plt.legend(loc='upper right', fontsize='small')
+    plt.show()
     
 else:
 
+    plt.title( r'{} con ($\Delta$t={})'.format(Problema.__name__,round(dt,2)) )
     plt.plot(t, U_euler[:,0], '-b', lw = 1, label ="Euler explícito")
     plt.plot(t, U_rk2[:,0], '-r', lw = 1, label ="Runge-Kutta 2")
     plt.plot(t, U_rk3[:,0], '--g', lw = 1, label ="Runge-Kutta 3")
     plt.plot(t, U_rk4[:,0], ':y', lw = 1, label ="Runge-Kutta 4")
     plt.xlabel( 'Tiempo' )
     plt.ylabel( 'Posición' )
+    plt.legend(loc='upper right', fontsize='small')
+    plt.grid()
+    plt.show()
 
-plt.title( r'{} con ($\Delta$t={})'.format(Problema.__name__,round(dt,2)) )
-plt.legend(loc='upper right', fontsize='small')
-plt.grid()
-plt.show()
+
