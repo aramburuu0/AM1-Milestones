@@ -1,5 +1,6 @@
 from numpy import array, zeros, concatenate, linspace
 from numpy.linalg import norm
+from scipy.optimize import newton
 import matplotlib.pyplot as plt
 
 ######### PROBLEMAS A RESOLVER #########
@@ -33,6 +34,26 @@ def Oscilador(U, t):
 def Euler(U, dt, t, F):
 
     return U + dt*F(U,t)
+
+######### EULER IMPLICITO #########
+
+def Euler_implicito(U, dt, t, F):
+
+    def G(X):
+
+        return X - U - dt*F(X,t)
+
+    return newton(G, U, maxiter=1000)
+
+######### RUNGE-KUTTA #########
+
+def Crank_nicholson(U, dt, t, F):
+
+    def G(X):
+
+        return X - U - (dt/2) *(F(U,t) + F(X,t))
+    
+    return newton(G, U, maxiter=1000)
 
 ######### RUNGE-KUTTA 2 (RK2) #########
 
@@ -91,15 +112,15 @@ while True:
         
         if t0 >= tf:
 
-            raise ValueError("El valor de t0 debe ser menor que el valor de tf.")
+            raise ValueError("El valor de t0 debe ser menor que el valor de tf")
 
         if tf <= 0:
 
-            raise ValueError("El valor de tf debe ser mayor que 0.")
+            raise ValueError("El valor de tf debe ser mayor que 0")
 
-        if N <= 0:
+        if N < 400:
 
-            raise ValueError("El número de pasos N debe ser mayor que 0.")
+            raise ValueError("El método de Newton no converge")
 
         break
 
@@ -143,6 +164,8 @@ else:
     raise ValueError("Problema no especificado correctamente")
 
 U_euler = Cauchy(Euler, U0, Problema, t)
+U_euler_implicito = Cauchy(Euler_implicito, U0, Problema, t)
+U_crank_nicholson = Cauchy(Crank_nicholson, U0, Problema, t)
 U_rk2 = Cauchy(RK2, U0, Problema, t)
 U_rk3 = Cauchy(RK3, U0, Problema, t)
 U_rk4 = Cauchy(RK4, U0, Problema, t)
@@ -154,8 +177,10 @@ plt.axis('equal')
 
 if Problema == Kepler:
 
-    plt.title( r'{} con ($\Delta$t={})'.format(Problema.__name__,round(dt,2)) )
+    plt.title( r'{} con ($\Delta$t={})'.format(Problema.__name__,round(dt,4)) )
     plt.plot(U_euler[:,0], U_euler[:, 1], '-b', lw = 1, label ="Euler explícito")
+    plt.plot(U_euler_implicito[:,0], U_euler_implicito[:, 1],linestyle='--', color='peru', lw = 1, label ="Euler implícito")
+    plt.plot(U_crank_nicholson[:,0], U_crank_nicholson[:, 1], ':m', lw = 1, label ="Crank-Nicholson")
     plt.plot(U_rk2[:,0], U_rk2[:, 1], '-r', lw = 1, label ="Runge-Kutta 2")
     plt.plot(U_rk3[:,0], U_rk3[:, 1], '--g', lw = 1, label ="Runge-Kutta 3")
     plt.plot(U_rk4[:,0], U_rk4[:, 1], ':y', lw = 1, label ="Runge-Kutta 4")
@@ -165,8 +190,10 @@ if Problema == Kepler:
     plt.grid()
     plt.show()
 
-    plt.title(r'Evolución de Vx con $\Delta$t={}'.format(round(dt,2)))
+    plt.title(r'Evolución de Vx con $\Delta$t={}'.format(round(dt,4)))
     plt.plot(t, U_euler[:,0], '-b', lw = 1, label ="Euler explícito")
+    plt.plot(t, U_euler_implicito[:, 0],linestyle='--', color='peru', lw = 1, label ="Euler implícito")
+    plt.plot(t, U_crank_nicholson[:, 0], ':m', lw = 1, label ="Crank-Nicholson")
     plt.plot(t, U_rk2[:,0], '-r', lw = 1, label ="Runge-Kutta 2")
     plt.plot(t, U_rk3[:,0], '--g', lw = 1, label ="Runge-Kutta 3")
     plt.plot(t, U_rk4[:,0], ':y', lw = 1, label ="Runge-Kutta 4")
@@ -179,6 +206,8 @@ if Problema == Kepler:
     
     plt.title(r'Evolución de Vy con $\Delta$t={}'.format(round(dt,2)))
     plt.plot(t, U_euler[:,1], '-b', lw = 1, label ="Euler explícito")
+    plt.plot(t, U_euler_implicito[:, 1],linestyle='--', color='peru', lw = 1, label ="Euler implícito")
+    plt.plot(t, U_crank_nicholson[:, 1], ':m', lw = 1, label ="Crank-Nicholson")
     plt.plot(t, U_rk2[:,1], '-r', lw = 1, label ="Runge-Kutta 2")
     plt.plot(t, U_rk3[:,1], '--g', lw = 1, label ="Runge-Kutta 3")
     plt.plot(t, U_rk4[:,1], ':y', lw = 1, label ="Runge-Kutta 4")
@@ -192,6 +221,8 @@ else:
 
     plt.title( r'{} con ($\Delta$t={})'.format(Problema.__name__,round(dt,2)) )
     plt.plot(t, U_euler[:,0], '-b', lw = 1, label ="Euler explícito")
+    plt.plot(t, U_euler_implicito[:, 0],linestyle='--', color='peru', lw = 1, label ="Euler implícito")
+    plt.plot(t, U_crank_nicholson[:, 0], ':m', lw = 1, label ="Crank-Nicholson")
     plt.plot(t, U_rk2[:,0], '-r', lw = 1, label ="Runge-Kutta 2")
     plt.plot(t, U_rk3[:,0], '--g', lw = 1, label ="Runge-Kutta 3")
     plt.plot(t, U_rk4[:,0], ':y', lw = 1, label ="Runge-Kutta 4")
