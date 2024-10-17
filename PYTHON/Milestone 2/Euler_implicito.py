@@ -64,12 +64,13 @@ def Crank_Nicholson(U, dt, t, F):
     
     return newton(G, U)
 
+U_euler = Cauchy(Euler, U0, Kepler, t)
 U_implicito = Cauchy(Euler_implicito, U0, Kepler, t)
 U_crank = Cauchy(Crank_Nicholson, U0, Kepler, t)
 
-
-plt.plot(U_implicito[:, 0],U_implicito[:, 1], '-g', label="Euler Implicito")
-plt.plot(U_crank[:, 0],U_crank[:, 1], 'r', label="Crank-Nicholson")
+plt.plot(U_euler[:, 0],U_euler[:, 1], '-y', label="Euler Explícito")
+plt.plot(U_implicito[:, 0],U_implicito[:, 1], '--g', label="Euler Implícito")
+plt.plot(U_crank[:, 0],U_crank[:, 1], ':r', label="Crank-Nicholson")
 plt.axis("equal")
 plt.legend(loc='upper right',fontsize='small')
 plt.grid()
