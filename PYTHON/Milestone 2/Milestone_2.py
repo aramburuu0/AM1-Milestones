@@ -43,7 +43,7 @@ def Euler_implicito(U, dt, t, F):
 
         return X - U - dt*F(X,t)
 
-    return newton(G, U, maxiter=1000)
+    return newton(G, U, maxiter=1500)
 
 ######### RUNGE-KUTTA #########
 
@@ -53,7 +53,7 @@ def Crank_nicholson(U, dt, t, F):
 
         return X - U - (dt/2) *(F(U,t) + F(X,t))
     
-    return newton(G, U, maxiter=1000)
+    return newton(G, U, maxiter=1500)
 
 ######### RUNGE-KUTTA 2 (RK2) #########
 
@@ -118,7 +118,7 @@ while True:
 
             raise ValueError("El valor de tf debe ser mayor que 0")
 
-        if N < 400:
+        if N < 200:
 
             raise ValueError("El método de Newton no converge")
 
@@ -172,18 +172,18 @@ U_rk4 = Cauchy(RK4, U0, Problema, t)
 
 ######### GRÁFICAS #########
 
-plt.figure(figsize=(8, 5))
+plt.figure(figsize=(10, 7))
 plt.axis('equal')
 
 if Problema == Kepler:
 
     plt.title( r'{} con ($\Delta$t={})'.format(Problema.__name__,round(dt,4)) )
     plt.plot(U_euler[:,0], U_euler[:, 1], '-b', lw = 1, label ="Euler explícito")
-    plt.plot(U_euler_implicito[:,0], U_euler_implicito[:, 1],linestyle='--', color='peru', lw = 1, label ="Euler implícito")
-    plt.plot(U_crank_nicholson[:,0], U_crank_nicholson[:, 1], ':m', lw = 1, label ="Crank-Nicholson")
+    plt.plot(U_euler_implicito[:,0], U_euler_implicito[:, 1], linestyle='--', color='peru', lw = 1, label ="Euler implícito")
+    plt.plot(U_crank_nicholson[:,0], U_crank_nicholson[:, 1], linestyle='-.', color='indigo', lw = 1, label ="Crank-Nicholson")
     plt.plot(U_rk2[:,0], U_rk2[:, 1], '-r', lw = 1, label ="Runge-Kutta 2")
     plt.plot(U_rk3[:,0], U_rk3[:, 1], '--g', lw = 1, label ="Runge-Kutta 3")
-    plt.plot(U_rk4[:,0], U_rk4[:, 1], ':y', lw = 1, label ="Runge-Kutta 4")
+    plt.plot(U_rk4[:,0], U_rk4[:, 1], '-.y', lw = 1, label ="Runge-Kutta 4")
     plt.xlabel( 'Coordenada x' )
     plt.ylabel( 'Coordenada y' )
     plt.legend(loc='upper right', fontsize='small')
@@ -192,11 +192,11 @@ if Problema == Kepler:
 
     plt.title(r'Evolución de Vx con $\Delta$t={}'.format(round(dt,4)))
     plt.plot(t, U_euler[:,0], '-b', lw = 1, label ="Euler explícito")
-    plt.plot(t, U_euler_implicito[:, 0],linestyle='--', color='peru', lw = 1, label ="Euler implícito")
-    plt.plot(t, U_crank_nicholson[:, 0], ':m', lw = 1, label ="Crank-Nicholson")
+    plt.plot(t, U_euler_implicito[:, 0], linestyle='--', color='peru', lw = 1, label ="Euler implícito")
+    plt.plot(t, U_crank_nicholson[:, 0], linestyle='-.', color='indigo', lw = 1, label ="Crank-Nicholson")
     plt.plot(t, U_rk2[:,0], '-r', lw = 1, label ="Runge-Kutta 2")
     plt.plot(t, U_rk3[:,0], '--g', lw = 1, label ="Runge-Kutta 3")
-    plt.plot(t, U_rk4[:,0], ':y', lw = 1, label ="Runge-Kutta 4")
+    plt.plot(t, U_rk4[:,0], '-.y', lw = 1, label ="Runge-Kutta 4")
     plt.xlabel( 'Tiempo' )
     plt.ylabel( 'Velocidad horizontal Vx' )
     plt.grid()
@@ -206,11 +206,11 @@ if Problema == Kepler:
     
     plt.title(r'Evolución de Vy con $\Delta$t={}'.format(round(dt,2)))
     plt.plot(t, U_euler[:,1], '-b', lw = 1, label ="Euler explícito")
-    plt.plot(t, U_euler_implicito[:, 1],linestyle='--', color='peru', lw = 1, label ="Euler implícito")
-    plt.plot(t, U_crank_nicholson[:, 1], ':m', lw = 1, label ="Crank-Nicholson")
+    plt.plot(t, U_euler_implicito[:, 1], linestyle='--', color='peru', lw = 1, label ="Euler implícito")
+    plt.plot(t, U_crank_nicholson[:, 1], linestyle='-.', color='indigo', lw = 1, label ="Crank-Nicholson")
     plt.plot(t, U_rk2[:,1], '-r', lw = 1, label ="Runge-Kutta 2")
     plt.plot(t, U_rk3[:,1], '--g', lw = 1, label ="Runge-Kutta 3")
-    plt.plot(t, U_rk4[:,1], ':y', lw = 1, label ="Runge-Kutta 4")
+    plt.plot(t, U_rk4[:,1], '-.y', lw = 1, label ="Runge-Kutta 4")
     plt.xlabel( 'Tiempo' )
     plt.ylabel( 'Velocidad horizontal Vy' )
     plt.grid()
@@ -221,11 +221,11 @@ else:
 
     plt.title( r'{} con ($\Delta$t={})'.format(Problema.__name__,round(dt,2)) )
     plt.plot(t, U_euler[:,0], '-b', lw = 1, label ="Euler explícito")
-    plt.plot(t, U_euler_implicito[:, 0],linestyle='--', color='peru', lw = 1, label ="Euler implícito")
-    plt.plot(t, U_crank_nicholson[:, 0], ':m', lw = 1, label ="Crank-Nicholson")
+    plt.plot(t, U_euler_implicito[:, 0], linestyle='--', color='peru', lw = 1, label ="Euler implícito")
+    plt.plot(t, U_crank_nicholson[:, 0], linestyle='-.', color='indigo', lw = 1, label ="Crank-Nicholson")
     plt.plot(t, U_rk2[:,0], '-r', lw = 1, label ="Runge-Kutta 2")
     plt.plot(t, U_rk3[:,0], '--g', lw = 1, label ="Runge-Kutta 3")
-    plt.plot(t, U_rk4[:,0], ':y', lw = 1, label ="Runge-Kutta 4")
+    plt.plot(t, U_rk4[:,0], '-.y', lw = 1, label ="Runge-Kutta 4")
     plt.xlabel( 'Tiempo' )
     plt.ylabel( 'Posición' )
     plt.legend(loc='upper right', fontsize='small')
