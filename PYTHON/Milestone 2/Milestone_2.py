@@ -159,6 +159,7 @@ elif problema == "Oscilador":
      
     Problema = Oscilador
     U0 = array([x_osc, xd_osc])
+    
 else:
     
     raise ValueError("Problema no especificado correctamente")
