@@ -1,5 +1,5 @@
 from numpy import array, zeros, linspace
-from Esquemas import Kepler, Oscilador, Cauchy, Euler, Euler_implicito, Crank_nicholson, RK4, Cauchy_error
+from Funciones import Kepler, Oscilador, Cauchy, Euler, Euler_implicito, Crank_nicholson, RK4, Cauchy_error
 import matplotlib.pyplot as plt
 
 ######### CONDICIONES INICIALES #########
