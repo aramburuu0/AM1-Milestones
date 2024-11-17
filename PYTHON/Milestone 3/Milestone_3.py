@@ -1,5 +1,5 @@
 from numpy import array, zeros, linspace
-from Funciones import Kepler, Oscilador, Cauchy, Euler, Euler_implicito, Crank_nicholson, RK4, Cauchy_error
+from Funciones import Kepler, Oscilador, Cauchy, Euler, Euler_implicito, Crank_nicholson, RK4, Cauchy_error, Cauchy_error2,  Convergencia
 import matplotlib.pyplot as plt
 
 ######### CONDICIONES INICIALES #########
@@ -52,7 +52,7 @@ plt.axis('equal')
 
 if Problema == Kepler:
 
-    plt.title( r'Error X de {}'.format(Problema.__name__) )
+    plt.title( r'Error X de {}'.format(Problema.__name__))
     plt.plot(t, Error_EE[:, 0], '-b', lw = 1, label = 'Error EE')
     plt.plot(t, Error_EI[:, 0], '--r', lw = 1, label = 'Error EI')
     plt.plot(t, Error_CN[:, 0], '-g', lw = 1, label = 'Error CN')
