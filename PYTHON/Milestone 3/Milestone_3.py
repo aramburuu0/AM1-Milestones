@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 x0 = 0
 xf = 20
-N = 1000
+N = 500
 
 t = linspace(x0, xf, N+1)
 
@@ -38,86 +38,77 @@ else:
     
     raise ValueError("Problema no especificado correctamente")
 
-######### RESOLUCIÓN #########
+esquema = input("Que esquema numérico desea emplear? ")
 
-Error_EE = Cauchy_error(Euler, U0, Problema, t, q=1)
-Error_EI = Cauchy_error(Euler_implicito, U0, Problema, t, q=1)
-Error_CN = Cauchy_error(Crank_nicholson, U0, Problema, t, q=2)
-Error_RK4 = Cauchy_error(RK4, U0, Problema, t, q=4)
+if esquema == "EE":
 
-######### GRÁFICAS #########
+    Esquema = Euler
+    q = 1
 
-plt.figure()
-plt.axis('equal')
+elif esquema == "RK4":
 
-if Problema == Kepler:
+    Esquema = RK4
+    q = 4
 
-    plt.title( r'Error X de {}'.format(Problema.__name__))
-    plt.plot(t, Error_EE[:, 0], '-b', lw = 1, label = 'Error EE')
-    plt.plot(t, Error_EI[:, 0], '--r', lw = 1, label = 'Error EI')
-    plt.plot(t, Error_CN[:, 0], '-g', lw = 1, label = 'Error CN')
-    plt.plot(t, Error_RK4[:, 0], '--y', lw = 1, label = 'Error RK4')
-    plt.xlabel( 'Tiempo' )
-    plt.ylabel( 'Error' )
-    plt.legend(loc='upper right')
-    plt.grid()
-    plt.show()
+elif esquema == "EI":
 
-    plt.title( r'Error Y de {}'.format(Problema.__name__) )
-    plt.plot(t, Error_EE[:, 1], '-b', lw = 1, label = 'Error EE')
-    plt.plot(t, Error_EI[:, 1], '--r', lw = 1, label = 'Error EI')
-    plt.plot(t, Error_CN[:, 1], '-g', lw = 1, label = 'Error CN')
-    plt.plot(t, Error_RK4[:, 1], '--y', lw = 1, label = 'Error RK4')
-    plt.xlabel( 'Tiempo' )
-    plt.ylabel( 'Error' )
-    plt.legend(loc='upper right')
-    plt.grid()
-    plt.show()
+    Esquema = Euler_implicito
+    q = 1
 
-    plt.title( r'Error Vx de {}'.format(Problema.__name__) )
-    plt.plot(t, Error_EE[:, 2], '-b', lw = 1, label = 'Error EE')
-    plt.plot(t, Error_EI[:, 2], '--r', lw = 1, label = 'Error EI')
-    plt.plot(t, Error_CN[:, 2], '-g', lw = 1, label = 'Error CN')
-    plt.plot(t, Error_RK4[:, 2], '--y', lw = 1, label = 'Error RK4')
-    plt.xlabel( 'Tiempo' )
-    plt.ylabel( 'Error' )
-    plt.legend(loc='upper right')
-    plt.grid()
-    plt.show()
+elif esquema == "CN":
 
-    plt.title( r'Error Vy de {}'.format(Problema.__name__) )
-    plt.plot(t, Error_EE[:, 3], '-b', lw = 1, label = 'Error EE')
-    plt.plot(t, Error_EI[:, 3], '--r', lw = 1, label = 'Error EI')
-    plt.plot(t, Error_CN[:, 3], '-g', lw = 1, label = 'Error CN')
-    plt.plot(t, Error_RK4[:, 3], '--y', lw = 1, label = 'Error RK4')
-    plt.xlabel( 'Tiempo' )
-    plt.ylabel( 'Error' )
-    plt.legend(loc='upper right')
-    plt.grid()
-    plt.show()
+    Esquema = Crank_nicholson
+    q = 2
 
-elif Problema == Oscilador:
+else:
+
+    raise ValueError("Esquema no válido")
+
+apartado = input("Que desea caclular Error o Convergencia? ")
+
+######### RESOLUCIÓN Y GRÁFICAS #########
+
+if apartado == "Error":
+
+    Error = Cauchy_error(Esquema, U0, Problema, t, q)
     
-    plt.title( r'Error X de {}'.format(Problema.__name__) )
-    plt.plot(t, Error_EE[:, 0], '-b', lw = 1, label = 'Error EE')
-    plt.plot(t, Error_EI[:, 0], '--r', lw = 1, label = 'Error EI')
-    plt.plot(t, Error_CN[:, 0], '-g', lw = 1, label = 'Error CN')
-    plt.plot(t, Error_RK4[:, 0], '--y', lw = 1, label = 'Error RK4')
-    plt.xlabel( 'Tiempo' )
-    plt.ylabel( 'Error' )
+    plt.figure()
+    plt.axis('equal')
+    plt.title( r'Error de {}'.format(Problema.__name__))
+    plt.xlabel('Tiempo')
+    plt.ylabel('Error')
+
+    if Problema == Kepler:
+    
+        plt.plot(t, Error[:,0], '-b', label = 'X')
+        plt.plot(t, Error[:,1], '--r', label = 'Y')
+        plt.plot(t, Error[:,2], '-g', label = 'Vx')
+        plt.plot(t, Error[:,3], '--y', label = 'Vy')
+
+    elif Problema == Oscilador:
+
+        plt.plot(t, Error[:,0], '-b', label = 'X')
+        plt.plot(t, Error[:,1], '--r', label = 'Vx')
+    
     plt.legend(loc='upper right')
     plt.grid()
     plt.show()
 
-    plt.title( r'Error Vx de {}'.format(Problema.__name__) )
-    plt.plot(t, Error_EE[:, 0], '-b', lw = 1, label = 'Error EE')
-    plt.plot(t, Error_EI[:, 0], '--r', lw = 1, label = 'Error EI')
-    plt.plot(t, Error_CN[:, 0], '-g', lw = 1, label = 'Error CN')
-    plt.plot(t, Error_RK4[:, 0], '--y', lw = 1, label = 'Error RK4')
-    plt.xlabel( 'Tiempo' )
-    plt.ylabel( 'Error' )
+elif apartado == "Convergencia":
+
+    logE, logN = Convergencia(Esquema, U0, Problema, t, Cauchy_error2, Cauchy) #Ajustar N en función del esquema para ver únicamente la parte recta
+
+    plt.figure()
+    plt.axis('equal')
+    plt.title( r'Convergencia de {}'.format(Problema.__name__))
+    plt.xlabel('logN')
+    plt.ylabel('logE')
+    plt.plot(logN, logE, '-b')
     plt.legend(loc='upper right')
     plt.grid()
     plt.show()
 
+else:
+
+    raise ValueError("Apartado no especificado correctamente")
 

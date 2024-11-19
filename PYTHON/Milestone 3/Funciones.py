@@ -236,7 +236,7 @@ def Cauchy_error2(Esquema, U0, F, t):
 
     for n in range(0, N):
 
-        Error2[n, :] = (U2[2*n, :]-U1[n, :])
+        Error2[n, :] = U2[2*n, :]-U1[n, :]
 
     return Error2
 
@@ -319,14 +319,13 @@ def Convergencia(Esquema, U0, F, t, Error, Problema_inicial):
     t1 = t
     N = len(t-1)
     
-    for i in range(1, ptosgraf):
-        
-        N=2*N
+    for n in range(ptosgraf):
         
         E = Error(Esquema, U0, F, t1)
-        logE[i] = log10(norm(E[-1, :]))
-        logN[i] = log10(N)
+        logE[n] = log10(norm(E[-1, :]))
+        logN[n] = log10(N)
 
+        N=2*N
         t1 = linspace(t[0], t[-1], N+1)
 
         return logE, logN
