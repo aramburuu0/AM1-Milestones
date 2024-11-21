@@ -1,5 +1,5 @@
 from numpy import array, zeros, linspace, polyfit
-from Funciones import Kepler, Oscilador, Cauchy, Euler, Euler_implicito, Crank_nicholson, RK4, Cauchy_error, Cauchy_error2,  Convergencia
+from Funciones import Kepler, Oscilador, Cauchy, Euler, Euler_implicito, Crank_Nicholson, RK4, Cauchy_error, Cauchy_error2,  Convergencia
 import matplotlib.pyplot as plt
 
 
@@ -58,7 +58,7 @@ elif esquema == "EI":
 
 elif esquema == "CN":
 
-    Esquema = Crank_nicholson
+    Esquema = Crank_Nicholson
     q = 2
 
 else:

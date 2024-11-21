@@ -82,7 +82,7 @@ def Euler_implicito(U, dt, t, F):
 
 ######### RUNGE-KUTTA #########
 
-def Crank_nicholson(U, dt, t, F):
+def Crank_Nicholson(U, dt, t, F):
 
     '''''''''''
     --INPUTS--
