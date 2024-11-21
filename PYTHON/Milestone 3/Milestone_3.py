@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 t0 = 0
 tf = 20
-N = 250
+N = 150
 
 t = linspace(t0, tf, N+1)
 
