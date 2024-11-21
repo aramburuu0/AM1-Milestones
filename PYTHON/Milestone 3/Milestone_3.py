@@ -1,14 +1,15 @@
-from numpy import array, zeros, linspace
+from numpy import array, zeros, linspace, polyfit
 from Funciones import Kepler, Oscilador, Cauchy, Euler, Euler_implicito, Crank_nicholson, RK4, Cauchy_error, Cauchy_error2,  Convergencia
 import matplotlib.pyplot as plt
 
+
 ######### CONDICIONES INICIALES #########
 
-x0 = 0
-xf = 20
-N = 500
+t0 = 0
+tf = 20
+N = 250
 
-t = linspace(x0, xf, N+1)
+t = linspace(t0, tf, N+1)
 
 ######### KEPLER #########
 
@@ -74,7 +75,7 @@ if apartado == "Error":
     
     plt.figure()
     plt.axis('equal')
-    plt.title( r'Error de {}'.format(Problema.__name__))
+    plt.title( r'Error de {} con {}'.format(Problema.__name__, Esquema.__name__))
     plt.xlabel('Tiempo')
     plt.ylabel('Error')
 
@@ -96,15 +97,20 @@ if apartado == "Error":
 
 elif apartado == "Convergencia":
 
-    logE, logN = Convergencia(Esquema, U0, Problema, t, Cauchy_error2, Cauchy) #Ajustar N en función del esquema para ver únicamente la parte recta
+    logN, logE = Convergencia(Esquema, U0, Problema, t, Cauchy_error2, Cauchy) # Ajustar N en función del esquema para ver únicamente la parte recta
+
+    # coef = polyfit(logN, logE, 1)
+    # m, b = coef
+    # y_fit = m * logN + b
 
     plt.figure()
     plt.axis('equal')
-    plt.title( r'Convergencia de {}'.format(Problema.__name__))
+    plt.title( r'Error de {} con {}'.format(Problema.__name__, Esquema.__name__))
     plt.xlabel('logN')
     plt.ylabel('logE')
-    plt.plot(logN, logE, '-b')
-    plt.legend(loc='upper right')
+    plt.plot(logN, logE, 'bo', label='Puntos de convergencia')
+    # plt.plot(logN, y_fit, '-r', label=f'Regresión Lineal: y = {m:.2f}x + {b:.2f}')
+    plt.legend(loc='upper right',fontsize='small')
     plt.grid()
     plt.show()
 

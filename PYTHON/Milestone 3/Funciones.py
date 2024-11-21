@@ -170,7 +170,7 @@ def Cauchy(Esquema, U0, F, t):
     --INPUTS--
 
     Esquema (U, dt, t, F): Esquema númerico para resolver el problema
-    U0: Vector de condiciones iniciales dl problema a resolver
+    U0: Vector de condiciones iniciales del problema a resolver
     F(U, t): Función a resolver
     t: Partición temporal
 
@@ -208,7 +208,7 @@ def Cauchy_error(Esquema, U0, F, t, q):
     U1 = Cauchy(Esquema, U0, F, t1)         # solución de Cauchy al esquema para la malla original
     U2 = Cauchy(Esquema, U0, F, t2)         # solución de Cauchy al esquema para la malla refinada
 
-    for n in range(0, N):
+    for n in range(0, N+1):
 
         Error[n, :] = (U2[2*n, :]-U1[n, :])/(1-1/2**q)
 
@@ -234,11 +234,46 @@ def Cauchy_error2(Esquema, U0, F, t):
     U1 = Cauchy(Esquema, U0, F, t1)         # solución de Cauchy al esquema para la malla original
     U2 = Cauchy(Esquema, U0, F, t2)         # solución de Cauchy al esquema para la malla refinada
 
-    for n in range(0, N):
+    for n in range(0, N+1):
 
-        Error2[n, :] = U2[2*n, :]-U1[n, :]
+        Error2[n, :] = (U2[2*n, :]-U1[n, :])
 
     return Error2
+
+######### CONVERGENCIA #########
+
+def Convergencia(Esquema, U0, F, t, Error, Cauchy):
+
+    '''''''''''
+    Inputs:
+
+        Esquema: Método numérico
+        U0: Vector de estado inicial
+        F: Función a resolver
+        t: particion temporal
+        Error(Esquema, U0, F, t): Función que devuelve un vector con el error de un esquema en cada paso temporal
+        Problema_inicial: Problema del valor inicial Cauchy
+
+    '''''''''''
+
+    ptosgraf = 15
+    logE = zeros(ptosgraf)
+    logN = zeros(ptosgraf)
+    t1 = t
+    N = len(t)-1
+    
+    for n in range(ptosgraf):
+        
+        E = Error(Esquema, U0, F, t1)
+        logE[n] = log10(norm(E[-1, :]))
+        logN[n] = log10(N)
+
+        N=2*N
+        t1 = linspace(t[0], t[-1], N+1)
+
+    return logN, logE
+
+# polyyfit para regresion lineal de los ountos de representar log(U2-U1) frente a log(N)
 
 ######### NEWTON #########
 
@@ -296,38 +331,3 @@ def jorge(x):
 def dif_jorge(x):
 
     return exp(x)-2
-
-######### CONVERGENCIA #########
-
-def Convergencia(Esquema, U0, F, t, Error, Problema_inicial):
-
-    '''''''''''
-    Inputs:
-
-        Esquema: Método numérico
-        U0: Vector de estado inicial
-        F: Función del problema de Cauchy
-        t: particion temporal
-        Error(Esquema, U0, F, t): Función que devuelve un vector con el error de un esquema en cada paso temporal
-        Problema_inicial: Problema del valor inicial Cauchy
-
-    '''''''''''
-
-    ptosgraf = 10
-    logE = zeros(ptosgraf)
-    logN = zeros(ptosgraf)
-    t1 = t
-    N = len(t-1)
-    
-    for n in range(ptosgraf):
-        
-        E = Error(Esquema, U0, F, t1)
-        logE[n] = log10(norm(E[-1, :]))
-        logN[n] = log10(N)
-
-        N=2*N
-        t1 = linspace(t[0], t[-1], N+1)
-
-        return logE, logN
-
-# polyyfit para regresion lineal de los ountos de representar log(U2-U1) frente a log(N)
