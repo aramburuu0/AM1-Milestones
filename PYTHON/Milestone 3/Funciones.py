@@ -78,7 +78,7 @@ def Euler_implicito(U, dt, t, F):
 
         return X - U - dt*F(X,t)
 
-    return newton(G, U, maxiter=1500)
+    return newton(G, U, maxiter=3000)
 
 ######### RUNGE-KUTTA #########
 
@@ -242,7 +242,7 @@ def Cauchy_error2(Esquema, U0, F, t):
 
 ######### CONVERGENCIA #########
 
-def Convergencia(Esquema, U0, F, t, Error, Cauchy):
+def Convergencia(Esquema, U0, F, t, Error, Cauchy, Ptosgraf):
 
     '''''''''''
     Inputs:
@@ -256,13 +256,12 @@ def Convergencia(Esquema, U0, F, t, Error, Cauchy):
 
     '''''''''''
 
-    ptosgraf = 15
-    logE = zeros(ptosgraf)
-    logN = zeros(ptosgraf)
+    logE = zeros(Ptosgraf)
+    logN = zeros(Ptosgraf)
     t1 = t
     N = len(t)-1
     
-    for n in range(ptosgraf):
+    for n in range(Ptosgraf):
         
         E = Error(Esquema, U0, F, t1)
         logE[n] = log10(norm(E[-1, :]))

@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 t0 = 0
 tf = 20
-N = 150
+N = 250
 
 t = linspace(t0, tf, N+1)
 
@@ -45,21 +45,25 @@ if esquema == "EE":
 
     Esquema = Euler
     q = 1
+    N_pts = 10
 
 elif esquema == "RK4":
 
     Esquema = RK4
     q = 4
+    N_pts = 7
 
 elif esquema == "EI":
 
     Esquema = Euler_implicito
     q = 1
+    N_pts = 10
 
 elif esquema == "CN":
 
     Esquema = Crank_Nicholson
     q = 2
+    N_pts = 9
 
 else:
 
@@ -97,11 +101,11 @@ if apartado == "Error":
 
 elif apartado == "Convergencia":
 
-    logN, logE = Convergencia(Esquema, U0, Problema, t, Cauchy_error2, Cauchy) # Ajustar N en función del esquema para ver únicamente la parte recta
+    logN, logE = Convergencia(Esquema, U0, Problema, t, Cauchy_error2, Cauchy,N_pts) # Ajustar N en función del esquema para ver únicamente la parte recta
 
-    # coef = polyfit(logN, logE, 1)
-    # m, b = coef
-    # y_fit = m * logN + b
+    coef = polyfit(logN, logE, 1)
+    m, b = coef
+    y_fit = m * logN + b
 
     plt.figure()
     plt.axis('equal')
@@ -109,7 +113,7 @@ elif apartado == "Convergencia":
     plt.xlabel('logN')
     plt.ylabel('logE')
     plt.plot(logN, logE, 'bo', label='Puntos de convergencia')
-    # plt.plot(logN, y_fit, '-r', label=f'Regresión Lineal: y = {m:.2f}x + {b:.2f}')
+    # plt.plot(logN, y_fit, '-r', label=f'Regresión Lineal: y = {m:.1f}x + {b:.1f}')
     plt.legend(loc='upper right',fontsize='small')
     plt.grid()
     plt.show()
