@@ -69,9 +69,9 @@ else:
 
     raise ValueError("Esquema no válido")
 
-apartado = input("Que desea caclular Error o Convergencia? ")
-
 ######### RESOLUCIÓN Y GRÁFICAS #########
+
+apartado = input("Que desea caclular Error o Convergencia? ")
 
 if apartado == "Error":
 
