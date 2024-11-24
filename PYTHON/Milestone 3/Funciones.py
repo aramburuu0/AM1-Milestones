@@ -252,7 +252,7 @@ def Convergencia(Esquema, U0, F, t, Error, Cauchy, Ptosgraf):
         F: Función a resolver
         t: particion temporal
         Error(Esquema, U0, F, t): Función que devuelve un vector con el error de un esquema en cada paso temporal
-        Problema_inicial: Problema del valor inicial Cauchy
+        Cauchy: Problema del valor inicial Cauchy
 
     '''''''''''
 
