@@ -20,7 +20,7 @@ def Cauchy_error(Metodo, Esquema, U0, F, t, q):
     U2 = Metodo(Esquema, U0, F, t2)
     Error = zeros([len(t1), len(U0)])
 
-    for n in range(0, len(t1)-1):
+    for n in range(0, len(t1)):
 
         Error[n, :] = (U2[2*n, :]-U1[n, :])/(1-1/2**q)
 
