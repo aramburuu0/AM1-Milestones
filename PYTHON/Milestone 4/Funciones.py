@@ -160,6 +160,22 @@ def RK4(U, dt, t, F):
 
     return U + dt/6 * (k1 + 2*k2 + 2*k3 + k4)
 
+######### LEAP-FROG (LP) #########
+
+def Leap_Frog(U, Uant, dt, t, F):
+
+    '''''''''''
+    --INPUTS--
+
+    U: Vector de estado (posición y velocidad)
+    Uant: Vector de estado de N-1 (Euler)
+    t: Partición temporal
+    F: Función a resolver
+
+    '''''''''''
+
+    return Uant + 2*dt*F(U,t)
+
 ######### METODOS DE RESOLUCIÓN #########
 
 ######### CAUCHY #########
@@ -179,11 +195,24 @@ def Cauchy(Esquema, U0, F, t):
     U = zeros([len(t), len(U0)])
     U[0, :] = U0
 
-    for n in range(0, len(t)-1):
-        
-        U[n+1, :] = Esquema(U[n, :], t[n+1] - t[n], t[n], F)
-    
-    return U
+    if Esquema == Leap_Frog:
+
+        dt = t[1] - t[0]
+        U[1, :] = U[0, :] + dt * F(U[0, :], t[0])
+
+        for n in range(1, len(t)-1):
+
+            U[n+1,:] = Leap_Frog(U[n, :], U[n-1, :], dt ,t[n], F)
+
+        return U
+
+    else:
+
+        for n in range(0, len(t)-1):
+
+            U[n+1,:] = Esquema(U[n, :], t[n+1] - t[n], t[n], F)
+
+        return U
 
 ######### MÉTODO DE RICHARDSON #########
 
