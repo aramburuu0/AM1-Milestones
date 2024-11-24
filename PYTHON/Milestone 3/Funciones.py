@@ -208,7 +208,7 @@ def Cauchy_error(Esquema, U0, F, t, q):
     U1 = Cauchy(Esquema, U0, F, t1)         # solución de Cauchy al esquema para la malla original
     U2 = Cauchy(Esquema, U0, F, t2)         # solución de Cauchy al esquema para la malla refinada
 
-    for n in range(0, N+1):
+    for n in range(0, len(t)):
 
         Error[n, :] = (U2[2*n, :]-U1[n, :])/(1-1/2**q)
 
@@ -234,7 +234,7 @@ def Cauchy_error2(Esquema, U0, F, t):
     U1 = Cauchy(Esquema, U0, F, t1)         # solución de Cauchy al esquema para la malla original
     U2 = Cauchy(Esquema, U0, F, t2)         # solución de Cauchy al esquema para la malla refinada
 
-    for n in range(0, N+1):
+    for n in range(0, len(t)):
 
         Error2[n, :] = (U2[2*n, :]-U1[n, :])
 
