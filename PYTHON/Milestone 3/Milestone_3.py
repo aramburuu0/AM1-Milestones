@@ -1,7 +1,6 @@
 from numpy import array, zeros, linspace, polyfit
-from Funciones import Kepler, Oscilador, Cauchy, Euler, Euler_implicito, Crank_Nicholson, RK4, Cauchy_error, Cauchy_error2, Convergencia
+from ODES.Funciones import Kepler, Oscilador, Cauchy, Euler, Euler_implicito, Crank_Nicholson, RK4, Cauchy_error, Cauchy_error2, Convergencia
 import matplotlib.pyplot as plt
-
 
 ######### CONDICIONES INICIALES #########
 

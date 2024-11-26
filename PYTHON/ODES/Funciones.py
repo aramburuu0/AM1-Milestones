@@ -160,6 +160,22 @@ def RK4(U, dt, t, F):
 
     return U + dt/6 * (k1 + 2*k2 + 2*k3 + k4)
 
+######### LEAP-FROG (LP) #########
+
+def Leap_Frog(U, Uant, dt, t, F):
+
+    '''''''''''
+    --INPUTS--
+
+    U: Vector de estado (posición y velocidad)
+    Uant: Vector de estado de N-1 (Euler)
+    t: Partición temporal
+    F: Función a resolver
+
+    '''''''''''
+
+    return Uant + 2*dt*F(U,t)
+
 ######### METODOS DE RESOLUCIÓN #########
 
 ######### CAUCHY #########
@@ -178,12 +194,25 @@ def Cauchy(Esquema, U0, F, t):
 
     U = zeros([len(t), len(U0)])
     U[0, :] = U0
+    dt = t[1] - t[0]
 
-    for n in range(0, len(t)-1):
-        
-        U[n+1, :] = Esquema(U[n, :], t[n+1] - t[n], t[n], F)
-    
-    return U
+    if Esquema == Leap_Frog:
+
+        U[1, :] = U[0, :] + dt * F(U[0, :], t[0])
+
+        for n in range(1, len(t)-1):
+
+            U[n+1,:] = Leap_Frog(U[n, :], U[n-1, :], dt ,t[n], F)
+
+        return U
+
+    else:
+
+        for n in range(0, len(t)-1):
+
+            U[n+1,:] = Esquema(U[n, :], t[n+1] - t[n], t[n], F)
+
+        return U
 
 ######### MÉTODO DE RICHARDSON #########
 
@@ -208,7 +237,7 @@ def Cauchy_error(Esquema, U0, F, t, q):
     U1 = Cauchy(Esquema, U0, F, t1)         # solución de Cauchy al esquema para la malla original
     U2 = Cauchy(Esquema, U0, F, t2)         # solución de Cauchy al esquema para la malla refinada
 
-    for n in range(0, len(t)):
+    for n in range(0, N+1):
 
         Error[n, :] = (U2[2*n, :]-U1[n, :])/(1-1/2**q)
 
@@ -234,7 +263,7 @@ def Cauchy_error2(Esquema, U0, F, t):
     U1 = Cauchy(Esquema, U0, F, t1)         # solución de Cauchy al esquema para la malla original
     U2 = Cauchy(Esquema, U0, F, t2)         # solución de Cauchy al esquema para la malla refinada
 
-    for n in range(0, len(t)):
+    for n in range(0, N+1):
 
         Error2[n, :] = (U2[2*n, :]-U1[n, :])
 
@@ -272,7 +301,33 @@ def Convergencia(Esquema, U0, F, t, Error, Cauchy, Ptosgraf):
 
     return logN, logE
 
-# polyyfit para regresion lineal de los ountos de representar log(U2-U1) frente a log(N)
+######### REGIONES DE ESTABILIDAD #########
+
+def Reg_estabilidad(Esquema, x0, xf, y0, yf, N):
+
+    '''''''''''
+    Inputs:
+
+        Esquema: Esquema númerico del que se obtiene la región de estabilidad
+        x0, xf: Puntos inicial y final de la malla Re
+        y0, yf: Puntos inicial y final de la malla Im
+        N: Número de particiones de la malla
+        
+    '''''''''''
+
+    x = linspace(x0, xf, N)
+    y = linspace(y0, yf, N)
+    rho = zeros((N, N))
+
+    for i in range(N):
+        for j in range (N):
+
+            w = complex(x[i], y[i])
+            r = Esquema(1., 1., 0., lambda u, t: w*u)
+
+            rho [i, j] = abs(r)
+
+    return x, y, rho
 
 ######### NEWTON #########
 
