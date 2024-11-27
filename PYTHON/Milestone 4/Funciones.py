@@ -1,4 +1,4 @@
-from numpy import concatenate, zeros, array, linspace, exp, log10
+from numpy import concatenate, zeros, array, linspace, exp, log10, float64, sqrt
 from numpy.linalg import norm
 from scipy.optimize import newton
 
@@ -317,15 +317,24 @@ def Reg_estabilidad(Esquema, x0, xf, y0, yf, N):
 
     x = linspace(x0, xf, N)
     y = linspace(y0, yf, N)
-    rho = zeros((N, N))
+
+    rho = zeros((N,N), dtype=float64)
 
     for i in range(N):
-        for j in range (N):
 
-            w = complex(x[i], y[i])
-            r = Esquema(1., 1., 0., lambda u, t: w*u)
+        for j in range(N):
 
-            rho [i, j] = abs(r)
+            w = complex(x[i], y[j])
+
+            if Esquema == Leap_Frog:
+
+                r = sqrt(Esquema(1, 1, 0, lambda u, t : u*w))
+
+            else:
+
+                r = Esquema(1, 1, 0, lambda u, t : u*w)
+
+            rho[i,j] = abs(r)
 
     return x, y, rho
 
@@ -369,10 +378,10 @@ def Newton(F, x_0, Fprima = None, tol = 1e-8, maxiter=50):
         iter += 1
 
         if iter >= maxiter:
+
             print(f'Max number of iterations reached ({maxiter}). Returning...')
             
             return xn
-
 
     print('Número de iterciones =', iter)
 

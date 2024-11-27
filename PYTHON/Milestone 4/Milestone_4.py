@@ -1,12 +1,12 @@
 from numpy import array, linspace, transpose
-from ODES.Funciones import Oscilador, Cauchy, Euler, Euler_implicito, Crank_Nicholson, RK4, Leap_Frog, Reg_estabilidad
+from Funciones import Oscilador, Cauchy, Euler, Euler_implicito, Crank_Nicholson, RK2, RK3, RK4, Leap_Frog, Reg_estabilidad
 import matplotlib.pyplot as plt
 
 ######### CONDICIONES INICIALES #########
 
 t0 = 0
-tf = 20
-N = 2000
+tf = 10
+N = 400
 t = linspace(t0, tf, N+1)
 
 ######### OSCILADOR #########
@@ -25,6 +25,18 @@ if esquema == "EE":
     Esquema = Euler
     q = 1
     N_pts = 10
+
+elif esquema == "RK2":
+
+    Esquema = RK2
+    q = 2
+    N_pts = 7
+
+elif esquema == "RK3":
+
+    Esquema = RK3
+    q = 3
+    N_pts = 7
 
 elif esquema == "RK4":
 
@@ -73,15 +85,13 @@ if apartado == "Orbita":
 
 elif apartado == "Estabilidad":
 
-    x, y, rho  = Reg_estabilidad(Esquema,-4, 4, -4, 4, 100)
+    x, y, rho  = Reg_estabilidad(Esquema,-4, 2, -4, 4, N)
 
-    plt.figure()
     plt.axis('equal')
     plt.title( r'Región de Estabilidad de {}'.format(Esquema.__name__))
     plt.xlabel('Re')
     plt.ylabel('Im')
     plt.contour( x, y, transpose(rho), linspace(0, 1, 11))  # linspace desde G=10 hasta G=1 para pintar las diferentes curvas de nivel
-    plt.axis('equal')
     plt.grid()
     plt.show()
 
