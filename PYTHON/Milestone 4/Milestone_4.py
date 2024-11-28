@@ -24,37 +24,31 @@ if esquema == "EE":
 
     Esquema = Euler
     q = 1
-    N_pts = 10
 
 elif esquema == "RK2":
 
     Esquema = RK2
     q = 2
-    N_pts = 7
 
 elif esquema == "RK3":
 
     Esquema = RK3
     q = 3
-    N_pts = 7
 
 elif esquema == "RK4":
 
     Esquema = RK4
     q = 4
-    N_pts = 7
 
 elif esquema == "EI":
 
     Esquema = Euler_implicito
     q = 1
-    N_pts = 10
 
 elif esquema == "CN":
 
     Esquema = Crank_Nicholson
     q = 2
-    N_pts = 9
 
 elif esquema == "LF":
 

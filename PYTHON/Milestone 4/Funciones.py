@@ -1,4 +1,4 @@
-from numpy import concatenate, zeros, array, linspace, exp, log10, float64, sqrt
+from numpy import concatenate, zeros, array, linspace, exp, log10, sqrt
 from numpy.linalg import norm
 from scipy.optimize import newton
 
@@ -318,7 +318,7 @@ def Reg_estabilidad(Esquema, x0, xf, y0, yf, N):
     x = linspace(x0, xf, N)
     y = linspace(y0, yf, N)
 
-    rho = zeros((N,N), dtype=float64)
+    rho = zeros((N,N))
 
     for i in range(N):
 
@@ -328,7 +328,7 @@ def Reg_estabilidad(Esquema, x0, xf, y0, yf, N):
 
             if Esquema == Leap_Frog:
 
-                r = sqrt(Esquema(1, 1, 0, lambda u, t : u*w))
+                r = sqrt(Esquema(1, 1, 1, 0, lambda u, t : u*w))
 
             else:
 
