@@ -1,5 +1,5 @@
 from numpy import array, linspace, transpose
-from Funciones import Oscilador, Cauchy, Euler, Euler_implicito, Crank_Nicholson, RK2, RK3, RK4, Leap_Frog, Reg_estabilidad
+from ODES.Funciones import Oscilador, Cauchy, Euler, Euler_implicito, Crank_Nicholson, RK2, RK3, RK4, Leap_Frog, Reg_estabilidad
 import matplotlib.pyplot as plt
 
 ######### CONDICIONES INICIALES #########
