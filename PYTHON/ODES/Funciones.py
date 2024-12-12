@@ -1,6 +1,7 @@
-from numpy import concatenate, zeros, array, linspace, exp, log10, sqrt
+from numpy import concatenate, zeros, array, linspace, exp, log10
 from numpy.linalg import norm
 from scipy.optimize import newton
+from cmath import sqrt
 
 ######### PROBLEMA TERMPORAL #########
 
@@ -328,10 +329,12 @@ def Reg_estabilidad(Esquema, x0, xf, y0, yf, N):
 
             if Esquema == Leap_Frog:
 
-                r = sqrt(Esquema(1, 1, 1, 0, lambda u, t : u*w))
+                r1 = (2*w + sqrt(4*w**2+4))/2
+                r2 = (2*w - sqrt(4*w**2+4))/2
+                r = max(abs(r1), abs(r2))
 
             else:
-
+                
                 r = Esquema(1, 1, 0, lambda u, t : u*w)
 
             rho[i,j] = abs(r)
