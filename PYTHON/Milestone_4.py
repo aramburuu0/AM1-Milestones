@@ -85,7 +85,8 @@ elif apartado == "Estabilidad":
     plt.title( r'Región de Estabilidad de {}'.format(Esquema.__name__))
     plt.xlabel('Re')
     plt.ylabel('Im')
-    plt.contour( x, y, transpose(rho), linspace(0, 1, 11))  # linspace desde G=10 hasta G=1 para pintar las diferentes curvas de nivel
+    Contour = plt.contour( x, y, transpose(rho), linspace(0, 1, 11))  # linspace desde G=10 hasta G=1 para pintar las diferentes curvas de nivel
+    plt.clabel(Contour, inline=True, fontsize=5, fmt="%.2f")
     plt.grid()
     plt.show()
 
